@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+			}
+
+			.calculator {
+				display: flex;
+				flex-direction: column;
+				margin: 0 auto;
+				padding-top: 200px;
+				gap: 5px;
+				max-width: 300px;
+			}
+
+			.row {
+				width: 100%;
+				display: flex;
+				gap: 5px;
+			}
+
+			.row > button {
+				padding: 10px;
+				flex-basis: 33%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="calculator">
+			<input class="field" type="text" placeholder="0" />
+			<div class="row">
+				<button class="operation">+</button>
+				<button class="operation">-</button>
+				<button class="operation">*</button>
+				<button class="operation">/</button>
+			</div>
+			<div class="row">
+				<button>7</button>
+				<button>8</button>
+				<button>9</button>
+			</div>
+			<div class="row">
+				<button>6</button>
+				<button>5</button>
+				<button>4</button>
+			</div>
+			<div class="row">
+				<button>3</button>
+				<button>2</button>
+				<button>1</button>
+			</div>
+			<div class="row">
+				<button>0</button>
+				<button class="execute">Execute</button>
+				<button class="clear">Clear</button>
+			</div>
+		</div>
+		<script>
+			const operations = ['+', '-', '*', '/'];
+			const calculator = document.querySelector('.calculator');
+			const field = document.querySelector('.field');
+
+			calculator.addEventListener('click', (event) => {
+				if (event.target.tagName == 'BUTTON') {
+					const button = event.target;
+					if (button.classList.contains('execute')) {
+						try {
+							field.value = eval(field.value);
+						} catch (error) {
+							alert('ERROR');
+						}
+						return;
+					}
+					if (button.classList.contains('clear')) {
+						return (field.value = '');
+					}
+
+					if (button.classList.contains('operation')) {
+						const lastSymbol = field.value[field.value.length - 1];
+						if (lastSymbol != undefined) {
+							for (let operation of operations) {
+								if (lastSymbol == operation) {
+									return (field.value = field.value.slice(0, -1) + event.target.innerHTML);
+								}
+							}
+						}
+					}
+					field.value += button.innerHTML;
+				}
+			});
+		</script>
+	</body>
+</html>
